@@ -13,27 +13,21 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier as RFC
 from hyperopt import hp
 from time import time
-# Bayesian optimization
 from Baye_op import bestObj
-# data processing
 from data_pro import puData
 
 from sklearn.metrics import recall_score
 
-
-# the paramter of bayesian optimization
 seed = 42 
 metric = 'f1'
 kFoldSplits = 5
 n_iter_hopt = 50
 
-# =============================================================================
-#Setting the range of hyperparameter in random forest
 space = { 'n_estimators'      :  hp.choice('n_estimators', range(1,200))
           ,'max_depth'        :  hp.choice('max_depth', range(1,20))
           ,'min_samples_leaf' :  hp.choice('min_samples_leaf',range(1,20))
           }
-# =============================================================================
+
 
 
 PX_train, PX_test,  data_U, n_oob, f_oob, K, TS, NU, train_label, test_label, t_m, t_test = puData(P_dir = r'your data path'
@@ -41,18 +35,18 @@ PX_train, PX_test,  data_U, n_oob, f_oob, K, TS, NU, train_label, test_label, t_
 test_label=pd.Series(test_label)
 test_label.to_csv(r'your data path',header=True)
 begin_time = time()
-feature_improtance = []# the list of importance ranking of feature
+feature_improtance = []
 
 test_pro=[]
 
-T = 10# number of bootstraps / base learners
+T = 10
 for i in range(T):
-    # Bootstrap resample
+    
     bootstrap_sample = np.random.choice( np.arange(NU)
                                        , replace=True
                                        , size = K
                                        )
-    # Positive set + bootstrapped unlabeled set
+    
     data_bootstrap = np.concatenate((  PX_train
                                      , data_U[bootstrap_sample, :]
                                      )
@@ -60,7 +54,6 @@ for i in range(T):
                                     )    
    
     
-    # Bayesian optimization  # , min_samples_splitObj
     n_estimatorsObj, max_depthObj,min_samples_leafObj = bestObj(  space
                                                                  , n_iter_hopt
                                                                  , kFoldSplits
@@ -69,7 +62,7 @@ for i in range(T):
                                                                  , seed   = 42
                                                                  , metric = 'accuracy')
     
-    # training bayesian optimization model
+    
     model = RFC(     n_estimators  = n_estimatorsObj
                 ,       max_depth  = max_depthObj
                 , min_samples_leaf = min_samples_leafObj
@@ -78,10 +71,10 @@ for i in range(T):
                 ,           n_jobs = -1)
     
     model.fit(data_bootstrap, train_label)
-    # Index for the out of the bag (oob) samples
+   
     idx_oob = sorted(set(range(NU)) - set(np.unique(bootstrap_sample)))
     
-# =============================================================================    
+  
     bootstrap_test_sample = np.random.choice( idx_oob
                                             , replace=True
                                             , size = TS
@@ -93,26 +86,22 @@ for i in range(T):
                                          )   
     
     t_idx=np.arange(TS*2)
- # =============================================================================      
-    # test
-# =============================================================================   
+   
     t_test[t_idx] += model.predict_proba(data_test_bootstrap)    
-# =============================================================================          
-    # Transductive learning of oob samples
+
     f_oob[idx_oob] += model.predict_proba(data_U[idx_oob])
     feature_improtance.append(model.feature_importances_)
     n_oob[idx_oob] += 1
     t_m[t_idx] += 1
-predict_proba = f_oob[:, 1]/n_oob # predict probability 
-fea_imp = sum(feature_improtance)/T # feature improtance
+predict_proba = f_oob[:, 1]/n_oob 
+fea_imp = sum(feature_improtance)/T 
 predict_test=t_test[:, 1]/t_m
 predict_proba=pd.DataFrame(predict_proba)
 predict_proba.to_csv(r'your save path')
 end_time = time()
 run_time = end_time-begin_time
 print ('paraming run time：',run_time)
-# Performance measures 
-predict_test=np.int64(predict_test>0.5)#the thresolds can be estimated based on P-V plot
+predict_test=np.int64(predict_test>0.5)
 recall= recall_score(test_label, predict_test)
 Pr=(sum(predict_test))/(predict_test.shape[0])
 score=(recall*recall)/Pr
