@@ -41,10 +41,6 @@ def bestObj(space, n_iter_hopt, kFoldSplits, data_bootstrap, train_label,
                 , trials = trials
                 , rstate = np.random.RandomState(seed)
                )
-   
-    # if your n_estimators parameter was a list of possible options 
-    # (e.g. specified by hp.choice) and the 0 means the first element 
-    # of that list was chosen as the best hyperparameter.
     if best['n_estimators']==0:
         n_estimatorsObj = 1
     else:
