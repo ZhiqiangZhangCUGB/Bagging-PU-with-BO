@@ -30,15 +30,13 @@ def puData(P_dir,U_dir):
 
     PX_train,PX_test,PY_train,PY_test=train_test_split(data_P,P_label,test_size=0.3,random_state=0)
    
-    # training data
-    N_P_train= PX_train.shape[0]
-    #K: The size of the random bootstrap sample in the unlabeled samples,in this study, we set the K=N_P_train
+    N_P_train= PX_train.shape[1]
     K = N_P_train
     train_label = np.zeros(shape=(N_P_train+K,))
     train_label[:N_P_train] = 1.0
    
-    #testing data
-    N_P_test=PX_test.shape[0]  
+ 
+    N_P_test=PX_test.shape[1]  
     TS=N_P_test
     test_label = np.zeros(shape=(N_P_test+TS,))
     test_label[:N_P_test] = 1.0
