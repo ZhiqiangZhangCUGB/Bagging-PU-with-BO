@@ -85,7 +85,7 @@ for i in range(T):
                                           ,axis=0
                                          )   
     
-    t_idx=np.arange(TS*2)
+    t_idx=np.arange(TS)
    
     t_test[t_idx] += model.predict_proba(data_test_bootstrap)    
 
