@@ -41,9 +41,9 @@ def puData(P_dir,U_dir):
     test_label = np.zeros(shape=(N_P_test+TS,))
     test_label[:N_P_test] = 1.0
     
-    n_oob = np.zeros(shape=(NU,))
+    n_oob = np.zeros(shape=(NU,1))
     f_oob = np.zeros(shape=(NU, 2))
-    t_m   = np.zeros(shape=(2*TS,))
+    t_m   = np.zeros(shape=(2*TS,1))
     t_test = np.zeros(shape=(2*TS,2))
     
     return  PX_train, PX_test, data_U, n_oob, f_oob, K, TS, NU, train_label, test_label, t_m, t_test
