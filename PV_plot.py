@@ -61,14 +61,14 @@ def pvplot (P_dir,U_dir,prob_dir):
     ax. legend(loc='upper left',shadow=False, fontsize=12)
     ax.plot(x,pv,'g',label='Area')
     ax.set_xlabel('Predictive probability',fontsize=20)
-    ax.set_ylabel('Precentage of the known orebodies',fontsize=20)
+    ax.set_ylabel('Percentage of the known orebodies',fontsize=20)
     plt.tick_params(labelsize=20)
     ax.set_ylim([-0.05,1.05])
     ax.set_xlim([-0.05,1.05]) 
     ax.legend(loc=3, fontsize=14)
     #the percentage occupied 3D geological model volumes of the corresponding prospecting probabilities
     ax1=ax.twinx()
-    ax1.plot(x,pr_p,'r',label='Precition rate')
+    ax1.plot(x,pr_p,'r',label='Prediction rate')
     ax1.plot(x_i,1-y_i,'bo',markersize=8, zorder=3)
     ax1.annotate(
         r'intersection',  
@@ -79,7 +79,7 @@ def pvplot (P_dir,U_dir,prob_dir):
         arrowprops = dict(arrowstyle='->',         
                           connectionstyle='arc3')    
         )
-    ax1.set_ylabel('Precentage of the study area',fontsize=20)
+    ax1.set_ylabel('Percentage of the study area',fontsize=20)
     plt.tick_params(labelsize=20)
     ax1.set_ylim([1.05,-0.05])
     ax1.legend(loc=4, fontsize=14)
