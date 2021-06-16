@@ -1,5 +1,5 @@
 # Bagging-PU-with-BO
-The code for the Bagging-baed PU learning with Bayesian hyper-parameter optimization for 3D mineral potential mapping;
+The code for the Bagging-based PU learning with Bayesian hyper-parameter optimization for 3D mineral potential mapping;
 
 The random forest and OCSVM were provided by scikit-learn 0.24.0;
 
