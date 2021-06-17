@@ -87,7 +87,7 @@ for i in range(T):
     
     t_idx=np.arange(TS)
    
-    t_test[t_idx] += model.predict_proba(data_test_bootstrap)    
+    t_test[t_idx] += model.predict_proba(data_test_bootstrap[t_idx])              
 
     f_oob[idx_oob] += model.predict_proba(data_U[idx_oob])
     feature_improtance.append(model.feature_importances_)
