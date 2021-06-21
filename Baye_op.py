@@ -41,18 +41,15 @@ def bestObj(space, n_iter_hopt, kFoldSplits, data_bootstrap, train_label,
                 , trials = trials
                 , rstate = np.random.RandomState(seed)
                )
-    if best['n_estimators']==0:
-        n_estimatorsObj = 1
+    
     else:
         n_estimatorsObj = best['n_estimators']
     
-    if best['max_depth']==0:
-        max_depthObj = 1
+    
     else:
         max_depthObj = best['max_depth']
     
-    if best['min_samples_leaf']==0:
-        min_samples_leafObj=1
+   
     else:
         min_samples_leafObj=best['min_samples_leaf']
    
