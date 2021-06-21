@@ -93,9 +93,9 @@ for i in range(T):
     feature_improtance.append(model.feature_importances_)
     n_oob[idx_oob] += 1
     t_m[t_idx] += 1
-predict_proba = f_oob[:, 1]/n_oob 
+predict_proba = f_oob[:, 1]/n_oob.squeeze() 
 fea_imp = sum(feature_improtance)/T 
-predict_test=t_test[:, 1]/t_m
+predict_test=t_test[:, 1]/t_m.squeeze()
 predict_proba=pd.DataFrame(predict_proba)
 predict_proba.to_csv(r'your save path')
 end_time = time()
@@ -106,3 +106,6 @@ recall= recall_score(test_label, predict_test)
 Pr=(sum(predict_test))/(predict_test.shape[0])
 score=(recall*recall)/Pr
 
+print("Recall:", recall)
+print("Pr:", Pr)
+print("Score:", score)
