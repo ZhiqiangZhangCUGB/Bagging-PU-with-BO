@@ -21,8 +21,8 @@ def puData(P_dir,U_dir):
     data_P=np.array(data_P)
     data_U=np.array(data_U)
     
-    NP = data_P.shape[1]
-    NU = data_U.shape[1]
+    NP = data_P.shape[0]
+    NU = data_U.shape[0]
     
                                                                    
     P_label= np.zeros(shape=(NP,))
@@ -30,13 +30,13 @@ def puData(P_dir,U_dir):
 
     PX_train,PX_test,PY_train,PY_test=train_test_split(data_P,P_label,test_size=0.3,random_state=0)
    
-    N_P_train= PX_train.shape[1]
+    N_P_train= PX_train.shape[0]
     K = N_P_train
     train_label = np.zeros(shape=(N_P_train+K,))
     train_label[:N_P_train] = 1.0
    
  
-    N_P_test=PX_test.shape[1]  
+    N_P_test=PX_test.shape[0]  
     TS=N_P_test
     test_label = np.zeros(shape=(N_P_test+TS,))
     test_label[:N_P_test] = 1.0
