@@ -13,7 +13,6 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier as RFC
 from hyperopt import hp
 from time import time
-from Baye_op import bestObj
 from data_pro import puData
 
 from sklearn.metrics import recall_score
